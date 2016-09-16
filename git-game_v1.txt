@@ -1,0 +1,73 @@
+Level 1
+
+$git log
+
+check where the comment ‘Hello World!’ is
+
+$git checkout 640273
+
+Level 2
+
+$git checkout bug
+
+Level 3
+
+$git blame cool.cpp
+
+Find who is to blame for the bug. Learn that LinusTorvalds2014 is the culprit
+
+$git checkout LinusTorvalds2014
+
+Level 4
+
+$ls -a
+
+Find the hidden file named .gitignore
+
+$cat .gitignore
+
+Level 5
+
+$git checkout tree
+
+Level 6
+
+$./outputclue.sh nextclue_input.cpp
+
+Level 7
+
+merge it by the following code
+
+$git merge origin/code4life
+
+Level 8 
+
+fix the error by adding nextclue_input.cpp
+
+$git add nextclue_input.cpp
+
+checkout to mouse as indicated by the hint
+
+$git checkout mouse
+
+Level 9
+
+Since tag and branch have the same name, create a new tag with a different name,
+and remove the existing one
+
+$git tag Henry-v0.1 Henry && git tag -d Henry
+
+Checkout to Henry branch
+
+$git checkout Henry
+
+Level 10
+
+Checkout to master branch and update by adding and pulling
+
+$git checkout master
+$git remote add updater https://github.com/drami025/git-game.git
+$git pull updater master
+
+
+
