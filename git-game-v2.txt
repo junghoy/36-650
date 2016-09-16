@@ -1,0 +1,85 @@
+Level 1
+
+Find the number of files by the following code
+
+$git ls-files | xargs wc -l
+
+Checkout to the result 
+
+$git checkout 6861
+
+Level 2
+
+$git log
+
+The answer to the riddle is keyboard. Found the commit to keyboard
+
+$git show 16a28
+
+The instruction tells me to type in the following command
+
+$git checkout snowden
+
+Level 3
+
+Find out who contributed the most
+
+$git shortlog
+
+anon was the one with the most contributions
+
+$git checkout anon
+
+Level 4
+
+$git describe 
+
+returns the tag return-1005-g3a38b52
+
+$git checkout return
+
+As instructed, check out to pretty
+
+$git checkout pretty
+
+Level 5
+
+$git log —-pretty=format:”%T %s” | grep 3331d0b
+
+$git checkout SIGPOLL
+
+Level 6
+
+$git submodule init
+$git submodule update
+
+$cd Java
+$cat Readme.md
+
+$git checkout history
+
+Level 7
+
+$git grep hint.edu $(git rev-list history)
+
+$git checkout cherry
+
+Level 8
+
+$git checkout arachnid~4
+$git checkout insect~3
+
+$cat vowels.txt
+$cat consonants.txt
+
+$git checkout lighthouse
+
+Level 9
+
+$git bisect start
+$git log —-pretty=oneline —-reverse | head -l
+
+$git bisect good 3942179d
+$git log —-pretty=oneline —-reverse | tail -l
+
+$git bisect bad 662efa39
