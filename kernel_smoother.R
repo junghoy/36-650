@@ -1,46 +1,10 @@
 
 library(testthat)
 library(testit)
+library(assertthat)
 
-
-#Make_kernel_smoother function
-
-make_kernel_smoother <- function(xs,ys,bandwidth, kernel){
-  
-  observed_x <- xs
-  observed_y <- ys
-  bandwid <- bandwidth
-
-  #Make assertions that bandwidth > 0 and dimensions of x and y are the same
-  
-  assert_that(bandwidth >= 0)
-  assert_that(length(observed_x) == length(observed_y))
-  
-  #write closure function
-  
-  function(input){
-    
-    #create an array that is the size of the input 
-    result <- rep(NA, length(input))
-    
-    #iterate through input values 
-    for(i in 1:length(input)){
-      
-      weight <- rep(NA, length(observed_x))
-      #iterate through each observation point to calculate weight
-      for(j in 1:length(observed_x)){
-      
-        weight[j] = kernel((observed_x[j] - input[i])/bandwid)
-
-      }
-      result[i] <- weight %*% observed_y / sum(observed_y)  
-    }
-    return(result)
-  }
-}
 
 #Smoother_factory function
-#Basically the same as make_kernel_smoother, but adds one more closure function
 
 smoother_factory <- function(xs, ys, kernel){
   
@@ -57,20 +21,36 @@ smoother_factory <- function(xs, ys, kernel){
     
     function(input){
       
-      result <- rep(NA, length(input))
-      for(i in 1:length(input)){
-        
+      one_element <- function(input){
         weight <- rep(NA, length(observed_x))
-        
         for(j in 1:length(observed_x)){
           
-          weight[j] = kernel((observed_x[j] - input[i])/bandwidth)
+          weight[j] = kernel((observed_x[j] - input)/bandwidth)
         }
-        result[i] <- weight %*% observed_y / sum(observed_y)  
+        
+        result <- weight %*% observed_y / sum(observed_y)  
+        return(result)
       }
-      return(result)
-    }  
-  }
+      
+      #Implemented vectorize to avoid for loop
+      
+      more_element <- Vectorize(one_element)
+      return(more_element(input))
+      
+    }
+  }  
+}
+
+
+#Make_kernel_smoother function
+#Calls on smoother_factory function
+
+make_kernel_smoother <- function(xs,ys,bandwidth, kernel){
+  
+  factory <- smoother_factory(xs,ys, kernel)
+  k <- factory(bandwidth)
+  return(k)
+  
 }
 
 #Gaussian Kernel
@@ -131,10 +111,10 @@ test_that('Gaussian kernel test', {
   k1 <- factory(1)
   
   k2 <- make_kernel_smoother(xs, ys, 1, gaussian)
-
+  
   expect_equal(k1(1:10), k2(1:10))
   print("Test3 passed")
-    
+  
 })
 
 test_that('Boxcar kernel test', {
