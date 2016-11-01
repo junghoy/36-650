@@ -1,6 +1,3 @@
-#!/usr/bin/env Rscript
-
-library(testthat)
 
 #Use divide and conquer method to implement mergesort algorithm
 
@@ -67,26 +64,29 @@ mergesort <- function(unordered_array){
   }
 }
 
-order=function(unsorted_array){
-  return(match(unsorted_array, mergesort(unsorted_array)))
+
+order_new <- function(unsorted_array){
+  counter <- 1
+  l <- list()
+  for(item in mergesort(unsorted_array)){
+    
+    l[as.character(item)] <- counter
+    counter = counter + 1
+  }
+  return(l)  
 }
 
-#Unit tests for the function
+#Fixed duplicate issue
 
-
-test_that('Negative number handling', {
-  expect_equal(order(c(-3,-5,-7,-9)), c(4,3,2,1))
-  expect_equal(order(c(3,-1,6,-8)), c(3,2,4,1))
-  print("Test1 passed")
-})
-
-test_that('One element in the list', {
-  expect_equal(order(51), c(1))
-  print("Test2 passed")
-})
-
-test_that('Decimal numbers included', {
- expect_equal(order(c(3.5,2.5,1.5,0.5)), c(4,3,2,1)) 
- expect_equal(order(c(10,20,5,10.5)), c(2,4,1,3))
- print("Test3 passed")
-})
+order_new <- function(unsorted_array){
+  
+  result <- match(unsorted_array, mergesort(unsorted_array))
+  while(length(unique(result)) < length(unsorted_array)){
+    for(i in 1:length(result)){
+      if(duplicated(result)[i] == TRUE){
+        result[i] <- result[i] + 1
+      }
+    }
+  }
+  return(result)
+}
