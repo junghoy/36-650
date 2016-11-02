@@ -1,0 +1,36 @@
+
+create table movies(
+    movie_id SERIAL PRIMARY KEY,
+    title text DEFAULT '',
+    director text DEFAULT '',
+    writer text DEFAULT '',
+    first_lead_actor text DEFAULT '',
+    second_lead_actor text DEFAULT '',
+    budget numeric DEFAULT 0.0 CHECK (budget > 0),
+    first_weekend_gross numeric DEFAULT 0.0 CHECK (first_weekend_gross > 0),
+    opening_screen numeric DEFAULT 0 CHECK (opening_screen > 0)
+    );
+    
+insert into movies(title, director, writer, first_lead_actor,
+                   second_lead_actor, budget, first_weekend_gross, opening_screen)
+		values('Limitless', 'Neil Burger', 'Leslie Dixon', 'Bradley Cooper', 'Robert De Niro',
+               27000000, 18907302, 300),
+               ('Inception', 'Christopher Nolan', 'Christopher Nolan', 'Leonardo DiCaprio',
+               'Ellen Page', 160000000, 5912814, 500),
+               ('Interstellar', 'Christopher Nolan', 'Christopher Nolan', 'Anne Hathaway',
+                'Matthew McConaughey', 165000000, 47510360, 600);
+
+select * from movies;
+
+create table rdata(
+    text_col1 text DEFAULT '',
+    text_col2 text DEFAULT '',
+    int_col int
+);
+
+insert into rdata(select md5(random()::text), md5(random()::text), ceiling(10*random()) from generate_series(1,20));
+select * from rdata;    
+
+delete from rdata where int_col % 3 = 0;
+select * from rdata;
+
