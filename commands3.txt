@@ -1,0 +1,85 @@
+--CRUD Exercise 3
+
+
+
+--Creating temporary table
+
+CREATE TEMP TABLE temp1 AS
+SELECT round(per - 67*va/(gp*minutes),1) as prl, 
+       CASE round(per - 67*va/(gp*minutes),1) WHEN 11.5 THEN 'Power Foward'
+       WHEN 11.0 THEN 'Point Guard'
+       WHEN 10.6 THEN 'Center'
+       WHEN 10.5 THEN 'Shooting Guard/Small Foward' END as position
+       FROM more_player_stats;
+
+--Adding new columns to existing table
+
+ALTER TABLE more_player_stats
+ADD COLUMN prl NUMERIC,
+ADD COLUMN position TEXT;
+
+--Updating new columns' values
+
+UPDATE more_player_stats
+SET prl = round(per - 67*va/(gp*minutes),1);
+
+UPDATE more_player_stats
+SET position = CASE prl WHEN 11.5 THEN 'Power Foward'
+       WHEN 11.0 THEN 'Point Guard'
+       WHEN 10.6 THEN 'Center'
+       WHEN 10.5 THEN 'Shooting Guard/Small Foward' 
+       END;
+
+--Updating prl 
+
+UPDATE more_player_stats
+SET prl = CASE WHEN prl BETWEEN 11.4 AND 11.6 THEN 11.5
+	WHEN prl BETWEEN 10.9 AND 11.1 THEN 11.0
+	WHEN prl BETWEEN 10.6 AND 10.7 THEN 10.6
+	WHEN prl BETWEEN 10.4 and 10.5 THEN 10.5
+	ELSE NULL
+	END;
+
+--Updating position
+
+UPDATE more_player_stats
+SET position = CASE prl WHEN 11.5 THEN 'Power Foward'
+       WHEN 11.0 THEN 'Point Guard'
+       WHEN 10.6 THEN 'Center'
+       WHEN 10.5 THEN 'Shooting Guard/Small Foward' 
+       END;
+
+--Selecting rows with position = NULL
+
+SELECT * FROM more_player_stats
+WHERE position is NULL;
+
+--Converting height to integer
+
+SELECT split_part(height, '-',1)::integer*12 + split_part(height, '-',2)::integer as height_inch FROM player_bios;
+
+--Adding position column and updating values to player_bios table
+
+ALTER TABLE player_bios
+ADD COLUMN position TEXT;
+
+--Updating position 
+
+UPDATE player_bios
+SET position = more_player_stats.position
+FROM more_player_stats
+WHERE more_player_stats.id = player_bios.id;
+
+--Updating height
+
+UPDATE player_bios
+SET height = split_part(height, '-',1)::integer*12 + split_part(height, '-',2)::integer;
+
+ALTER TABLE player_bios 
+ALTER COLUMN height TYPE integer USING height::integer;
+
+--Average height by position
+
+SELECT position, AVG(height) FROM player_bios
+WHERE position IS NOT NULL
+GROUP BY position;
