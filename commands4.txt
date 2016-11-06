@@ -1,0 +1,26 @@
+--CRUD Exercise 4
+
+--Create table players
+
+CREATE TABLE players(
+	id SERIAL PRIMARY KEY,
+	firstname TEXT,
+	lastname TEXT,
+	position TEXT,
+	age TEXT,
+	height TEXT,
+	weight TEXT,
+	college TEXT,
+	country TEXT,
+	draft_year TEXT,
+	draft_round TEXT,
+	draft_number TEXT
+);
+
+--Insert values into the table from player_bios
+
+INSERT INTO players
+SELECT id, firstname, lastname, position, age, height, weight, 
+       college, country, draft_year, draft_round, draft_number
+FROM player_bios
+ORDER BY id;
