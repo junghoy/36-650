@@ -194,13 +194,6 @@ def autocomplete(prefix, root, k):
         print "Error encountered"
 
 
-
-"""
-Please uncomment the code below to activate command-line program
-"""
-
-
-"""
 def main():
 
     prefix = str(sys.argv[1])
@@ -212,7 +205,7 @@ def main():
    
 if __name__ == "__main__":
     main()
-"""
+
 
 
 
