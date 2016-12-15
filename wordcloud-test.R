@@ -2,6 +2,7 @@
 
 source("/Users/jungyeom/Dropbox/wordcloud.r")
 library(testthat)
+library(random)
 
 #example file and url
 textfile <- "http://textfiles.com/politics/1945-ger.txt"
@@ -75,3 +76,23 @@ test_that('intersect function works correctly', {
   coord_b$maxy <- 1
   expect_false(intersect(coord_a, coord_b))
 })
+
+# Add randomized test 
+
+test_that('tokenizer works for random text file', {
+  random.string <- randomStrings(n=10, len=5, digits=FALSE, upperalpha=FALSE,
+                                 loweralpha=TRUE, unique=TRUE, check=TRUE)
+  random.integer <- sample(1:10, 10, replace = TRUE)
+  random.text <- paste(rep(random.string, random.integer), collapse=" ")
+  expect_equal(tokenizer(random.text), rep(random.string, random.integer))
+})
+
+test_that('weight_by_counts works for random text file', {
+  random.string <- randomStrings(n=10, len=5, digits=FALSE, upperalpha=FALSE,
+                                 loweralpha=TRUE, unique=TRUE, check=TRUE)
+  random.integer <- sample(1:10, 10, replace = TRUE)
+  random.text <- paste(rep(random.string, random.integer), collapse=" ")
+  random.text <- tokenizer(random.text)
+  expect_equal(weight_by_counts(random.text)$Freq, sort(random.integer, decreasing = TRUE))
+})
+

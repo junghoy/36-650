@@ -1,18 +1,13 @@
 #!/usr/bin/env Rscript
 
 source("/Users/jungyeom/Dropbox/wordcloud.R")
-args <- commandArgs(trailingOnly = TRUE)
 
 ## Collect arguments
-args <- commandArgs(TRUE)
+args <- commandArgs(trailingOnly = TRUE)
 
 ## Default setting when no arguments passed
-if(length(args) < 1) {
-  args <- c("--help")
-}
-
 ## Help section
-if("--help" %in% args) {
+if("--help" %in% args | length(args) < 1) {
   cat("
       The R Script
       

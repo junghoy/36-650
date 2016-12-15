@@ -79,16 +79,16 @@ coordinate <- function(word, cex.scale = 1, vertical = FALSE){
   x <- 0.5
   y <- 0.5
   
-  maxx <- x + width/2
-  minx <- x - width/2
-  maxy <- y + height/2
-  miny <- y - height/2
-  
   if(vertical){
     maxx <- x + height/2
     minx <- x - height/2
     maxy <- (y + width/2)*1.05 
     miny <- (y - width/2)*0.95
+  }else{
+    maxx <- x + width/2
+    minx <- x - width/2
+    maxy <- y + height/2
+    miny <- y - height/2
   }
   coord <- list(text = word, minx = minx, maxx = maxx, miny = miny, 
                 maxy = maxy, x_coord = x, y_coord = y)
@@ -97,7 +97,6 @@ coordinate <- function(word, cex.scale = 1, vertical = FALSE){
 
 # Checks intersection of two coordinates
 intersect <- function(a,b){
-  #minx(b) > maxx(a) | miny(b) > maxy(a) | minx(a) > maxx(b) | miny(a) > maxy(b)
   if((b$minx > a$maxx) | (b$miny > a$maxy) | (a$minx > b$maxx) | (a$miny > b$maxy)){
     return(FALSE)
   } else
