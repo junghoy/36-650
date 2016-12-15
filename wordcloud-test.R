@@ -80,19 +80,25 @@ test_that('intersect function works correctly', {
 # Add randomized test 
 
 test_that('tokenizer works for random text file', {
-  random.string <- randomStrings(n=10, len=5, digits=FALSE, upperalpha=FALSE,
+  for(i in 1:10){
+    set.seed(i)
+    random.string <- randomStrings(n=10, len=5, digits=FALSE, upperalpha=FALSE,
                                  loweralpha=TRUE, unique=TRUE, check=TRUE)
-  random.integer <- sample(1:10, 10, replace = TRUE)
-  random.text <- paste(rep(random.string, random.integer), collapse=" ")
-  expect_equal(tokenizer(random.text), rep(random.string, random.integer))
+    random.integer <- sample(1:10, 10, replace = TRUE)
+    random.text <- paste(rep(random.string, random.integer), collapse=" ")
+    expect_equal(tokenizer(random.text), rep(random.string, random.integer))
+  }
 })
 
 test_that('weight_by_counts works for random text file', {
-  random.string <- randomStrings(n=10, len=5, digits=FALSE, upperalpha=FALSE,
+  for(i in 1:10){
+    set.seed(i)
+    random.string <- randomStrings(n=10, len=5, digits=FALSE, upperalpha=FALSE,
                                  loweralpha=TRUE, unique=TRUE, check=TRUE)
-  random.integer <- sample(1:10, 10, replace = TRUE)
-  random.text <- paste(rep(random.string, random.integer), collapse=" ")
-  random.text <- tokenizer(random.text)
-  expect_equal(weight_by_counts(random.text)$Freq, sort(random.integer, decreasing = TRUE))
+    random.integer <- sample(1:10, 10, replace = TRUE)
+    random.text <- paste(rep(random.string, random.integer), collapse=" ")
+    random.text <- tokenizer(random.text)
+    expect_equal(weight_by_counts(random.text)$Freq, sort(random.integer, decreasing = TRUE))
+  }
 })
 
